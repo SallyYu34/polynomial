@@ -11,6 +11,9 @@ class X:
 
     def __repr__(self):
         return "X"
+    
+    def evaluate(self, value):
+        return value
 
 class Int:
     def __init__(self, i):
@@ -18,6 +21,9 @@ class Int:
 
     def __repr__(self):
         return str(self.i)
+    
+    def evaluate(self, value):
+        return self.i
 
 class Add:
     def __init__(self, p1, p2):
@@ -27,6 +33,9 @@ class Add:
     def __repr__(self):
         return repr(self.p1) + " + " + repr(self.p2)
     
+    def evaluate(self, value):
+        return self.p1.evaluate(value) + self.p2.evaluate(value)
+    
 class Sub:
     def __init__(self, p1, p2):
         self.p1 = p1
@@ -34,6 +43,9 @@ class Sub:
 
     def __repr__(self):
         return repr(self.p1) + " - " + repr(self.p2)
+    
+    def evaluate(self, value):
+        return self.p1.evaluate(value) - self.p2.evaluate(value)
 
 class Mul:
     def __init__(self, p1, p2):
@@ -54,6 +66,9 @@ class Mul:
         if isinstance(self.p2, Sub):
             return repr(self.p1) + " * ( " + repr(self.p2) + " )"
         return repr(self.p1) + " * " + repr(self.p2)
+    
+    def evaluate(self, value):
+        return self.p1.evaluate(value) * self.p2.evaluate(value)
     
 
 class Div:
@@ -77,15 +92,19 @@ class Div:
             return repr(self.p1) + " / ( " + repr(self.p2) + " )"
         return repr(self.p1) + " / " + repr(self.p2)
     
+    def evaluate(self, value):
+        return self.p1.evaluate(value) / self.p2.evaluate(value) if self.p2.evaluate(value) != 0 else 'Division by zero!'
     
-poly = Add( Add( Int(4), Int(3)), Add( X(), Mul( Int(1), Add( Mul(X(), X()), Int(1)))))
+    
+poly = Add(Add(Int(4), Int(3)), Add(X(), Mul(Int(1), Add(Mul(X(), X()), Int(1)))))
 print(poly)
+print(poly.evaluate(-1))
 
 poly2 = Sub( Sub( Int(4), Int(3)), Sub( X(), Div( Int(1), Sub( Div(X(), X()), Int(1)))))
-print(poly2)
+#print(poly2)
 
 poly3 = Add( Add( Int(4), Int(3)), Add( X(), Div( Int(1), Add( Div(X(), X()), Int(1)))))
-print(poly3)
+#print(poly3)
 
 poly4 = Sub( Sub( Int(4), Int(3)), Sub( X(), Mul( Int(1), Sub( Mul(X(), X()), Int(1)))))
-print(poly4)
+#print(poly4)
